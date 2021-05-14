@@ -1,0 +1,69 @@
+﻿@model BlogCore.Models.ViewModels.HomeVM
+@{
+
+    ViewData["Title"] = "Home Page";
+}
+<!--SLIDER-->
+
+<header>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @{ int cont = 0;}
+            @foreach (var item in Model.Slider)
+            {
+                var itemDinamico = cont++ == 0 ? "item active" : "item";
+                <div class="carousel-item" @itemDinamico>
+                    <img src="@Url.Content(item.UrlImagen)" />
+                    <h1 class="text-dark text-center">@Html.Raw(@item.Nombre)</h1>
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</header>
+<!--Cierra SLIDER-->
+
+<div class="row fondotitulo mt-5">
+    <div class="col-sm-12 py-5">
+        <h1 class="text-center text-white"> Ultimas ordenes cargadas</h1>
+
+    </div>
+
+</div>
+
+
+<!--Articulos-->
+
+@if (Model.ListaArticulos.Count()> 0)
+{
+    <hr/>
+    <div class="row">
+        @foreach (var articulo in Model.ListaArticulos.OrderBy(o => o.Id))
+        {
+            <div class="col-4">
+                <div class="card">
+                    <img src="@articulo.UrlImagen" class="img-thumbnail" width="100%"  />
+                    <div class="card-body">
+                        <h5 class="text-center">@articulo.Nombre</h5>
+                        <p>@articulo.FechaCreacion</p>
+                        <a asp-action="Details" class="btn btn-success" style="border-radius:2px" asp-route-id="@articulo.Id">Mas informacion</a>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    </div>
+}
+else
+{
+    <p>No hay articulos</p>
+}
